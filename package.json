@@ -5,16 +5,21 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && npm run build:client && npm run build:ssr && npm run prerender && npm run check:build",
+    "build:client": "vite build",
+    "build:ssr": "vite build --ssr src/entry-server.tsx --outDir dist-ssr",
+    "prerender": "node scripts/prerender.mjs",
+    "check:build": "node scripts/check-build.mjs",
+    "preview": "vite preview",
+    "typecheck": "tsc -b --pretty false",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "start": "node server.js"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@tailwindcss/vite": "^4.3.3",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
-    "react-icons": "^5.7.0",
     "tailwindcss": "^4.3.3"
   },
   "devDependencies": {

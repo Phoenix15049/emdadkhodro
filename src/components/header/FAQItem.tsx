@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 
 interface FAQItemProps {
@@ -6,38 +6,28 @@ interface FAQItemProps {
   answer: string;
 }
 
-function FAQItem({
-  question,
-  answer,
-}: FAQItemProps) {
+function FAQItem({ question, answer }: FAQItemProps) {
   const [open, setOpen] = useState(false);
+  const contentId = useId();
 
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white">
-
-      <button
-        onClick={() => setOpen(!open)}
-        className="flex w-full items-center justify-between p-6 text-right"
-      >
-        <span className="text-lg font-bold">
-          {question}
-        </span>
-
-        <ChevronDownIcon
-          className={`h-6 w-6 transition duration-300 ${
-            open ? "rotate-180 text-orange-500" : ""
-          }`}
-        />
-      </button>
-
-      {open && (
-        <div className="border-t border-gray-200 px-6 pb-6">
-          <p className="pt-4 leading-8 text-gray-500">
-            {answer}
-          </p>
-        </div>
-      )}
-    </div>
+    <article className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
+      <h3>
+        <button
+          type="button"
+          onClick={() => setOpen((current) => !current)}
+          className="flex w-full items-center justify-between gap-4 px-5 py-5 text-right font-black text-slate-950 transition hover:bg-slate-50 sm:px-6"
+          aria-expanded={open}
+          aria-controls={contentId}
+        >
+          <span>{question}</span>
+          <ChevronDownIcon className={`h-5 w-5 shrink-0 text-orange-600 transition duration-300 ${open ? "rotate-180" : ""}`} />
+        </button>
+      </h3>
+      <div id={contentId} hidden={!open} className="border-t border-slate-200 px-5 py-5 text-sm leading-8 text-slate-600 sm:px-6">
+        {answer}
+      </div>
+    </article>
   );
 }
 
